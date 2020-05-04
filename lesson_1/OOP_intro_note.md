@@ -15,19 +15,19 @@
   - In other languages, encapsulation concerns hiding details of an object from code that uses the obejct. An object should *only* expose the methods and properties that other objects need to use the encapsulated object.
   - However, JS doen't directly provide the means to limit exposure of methods and properties. There are ways to achieve a degree of access restriction, but they're not perfect.
 
-- When object properties have function values, we call them **methods**. 
+- When object properties have *function values*, we call them **methods**.
 - `this`
+  
   - Suppose you change the variable name, calling a method with the original variable name will throw a reference error.
-  - when you use `this` inside a method, it refers to the object that contains the method
-
+- when you use `this` inside a method, it refers to the object that contains the method
+  
 - Objects that are used to store state within another object are called **collaborator objects** or, **collaborators**. They can be objects, primitives like strings, numbers
 
   ```javascript
-  // here cat is collaborator
   let cat = {
     name: 'Fluffy',
   
-    makeNoise() {
+    makeNoise() {  // this is a method
       console.log('Meow! Meow!');
     },
   
@@ -38,18 +38,18 @@
   
   let pete = {
     name: 'Pete',
-    pet: cat,
+    pet: cat,     // here cat is collaborator
   
     printName() {
       console.log(`My name is ${this.name}!`);
     },
   };
   ```
-
-  `pete` object has a collaborator object `cat` stored in its `pet` property.
-
-  When we need to access that `pet`, we can use `pete.pet` to reference the desired state or behavior: use `pete.pet` to call the `makeNoise` method, etc...
-
+  
+`pete` object has a collaborator object `cat` stored in its `pet` property.
+  
+When we need to access that `pet`, we can use `pete.pet` to reference the desired state or behavior: use `pete.pet` to call the `makeNoise` method, etc...
+  
 - Functions as object factories
 
   - you need to create hundreds or thousands of similar objects
