@@ -63,7 +63,7 @@ const RPSGame = {
       console.log('Oops...The computer is the grand winner!');
     }
   },
-
+  // could be shorter
   displayHistory() {
     clearScreen();
     console.log("Below is a snapshot of history choices:");
