@@ -1,4 +1,4 @@
-// 1
+// 1 we're creating duplicated books
 let book1 = {
   Title: 'Mythos',
   Author: 'Stephen Fry',
@@ -37,7 +37,7 @@ function createBook(title, author) {
     author: author,
     getDescription() {
       return `${this.title} was written by ${this.author}.`;
-    }.
+    },
   };
 }
 

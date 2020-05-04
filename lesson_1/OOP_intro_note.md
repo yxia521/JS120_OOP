@@ -68,3 +68,41 @@
   ```
 
   `createCar` function handles the similarities, while each invocation specifies the differences with arguments.
+
+- RPS
+
+  - The classical approach to planning an OO application:
+    - write a textual description of the problem
+    - extract the significant nouns and verbs from the description
+    - Organize and associate the verbs with the nouns
+
+  - Then, once we've organized our nouns and verbs into objects, we need an engine to orchestrate the objects. The engine is where the procedural program flow should be. e.g.:
+
+    ```javascript
+    const RPSGame = {
+      play() {
+        displayWelcomeMessage();
+        humanChooseMove();
+        computerChooseMove();
+        displayWinner();
+        displayGoodbyeMessage();
+      },
+    };
+    ```
+
+- Within method, when property and value have the same name, we can use a shorthand notation.
+
+  ```javascript
+  function createBook(title, author) {
+    return {
+      title,    // same as `title: title,`
+      author,
+      getDescription() {
+        return `${this.title} was written by ${this.author}.`;
+      },
+    };
+  }
+  ```
+
+  
+
