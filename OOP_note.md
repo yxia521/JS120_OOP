@@ -994,11 +994,12 @@ Structure:
     In a prototype chain, `Cat` is prototype of `fluffy` , `Animal` is prototype of `Cat`, we can say `fluffy` is an instance of `Animal`
 
 - `new` and Implicit Execution Context
-  - when you call a constructor function with `new`, its implicit context is the new object.
+  
+- when you call a constructor function with `new`, its implicit context is the new object.
+  
+- **Constructors with Prototypes**
 
-- Constructors with Prototypes
-
-  - Main idea: **prototype includes the common methods, constructor includes properties/methods unique for each newly created object.**
+  - Main idea: **prototype** includes the **common methods, constructor** includes **properties/methods unique for each newly created object.**
 
   - Reason why use constructions with prototype:
     - **Memory inefficiency**: When use constructor functions as factories to create objects, `bark` method remains the same in all, and every time we create an object, the runtime create a new copy of this method:
@@ -1358,34 +1359,49 @@ Structure:
   - :one: **Class Declarations:** simplest way:
 
     ```javascript
-    class Rectangle {                   // class keyword
-      constructor(length, width) {
+    class Rectangle {                   // class keyword, no ()
+      constructor(length, width) {      // previous constructor function
         this.length = length;
         this.width = width;
       }                                 // no comma
        
-      getArea() {
+      getArea() {                       // previous method in prototype 
         return this.length * this.width;
       }
       
-      toString() {
+      toString() {                      // previous method in prototype 
         return `[Rectangle ${this.width * this.length}]`;
       }
     }
+    
+    let rec1 = new Rectangle(10, 5);    // new keyword is a must
+    rec1.getArea();
     ```
 
     - No commas between each element of the class
     - the syntax looks similar to concise method definition in object literals
     - Now the constructor is a method, named `constructor`, instead of being a standalone function.
 
-  - Instantiating a new object from a class: (the same as constructor/prototype before)
+
+  - It behaves almost identical to following *constructor/prototype pairing:*
 
     ```javascript
+    function Rectangle(length, width) {   // constructor --> constructor()
+      this.length = length;
+      this.width = width;
+    }
+    
+    Rectangle.prototype.getArea = function() {
+      return this.length * this.width;
+    };
+    
+    Rectangle.prototype.toString = function() {
+      return `[Rectangle ${this.length} x ${this.width}]`;
+    };
+    
     let rec1 = new Rectangle(10, 5);
     rec1.getArea();
     ```
-
-    - `new` keyword is a must!
 
   - :two: **Class Expressions**
 
