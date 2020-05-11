@@ -1259,7 +1259,7 @@ Structure:
 
   :a: We can use *prototypal inheritance* here.
 
-  Think about: `Square` is a **sub-type** of `Rectangle` (where the length and width are the same):
+  Think about: `Square` is a **sub-type** of `Rectangle` (where the length and width are the same), `Rectangle` is a **super-type** of `Square`
 
   ```javascript
   function Square(size) {
@@ -1316,6 +1316,8 @@ Structure:
     sqr.toString();             // => "[Square 5 x 5]"
     sqr.constructor === Square; // => true    here!
     ```
+    
+  - When we talk about *inheritance* in JS, we generally mean **pseudo-classical inheritance** -- a constructor's prototype(`Square`) inherits from another constructor's (`Rectangle`) prototype; i.e., **a sub-type inherits from a super-type**
 
 ---
 
