@@ -1,5 +1,12 @@
+// TTTGame collaborates with Human.
+// TTTGame collaborates with Computer.
+// TTTGame collaborates with Board.
+// Board collaborates with Square.
+// Human, Computer, and Player classes know nothing about the Square class,
+// Board knows nothing about Human, Computer, and Player
+
 let readline = require('readline-sync');
-// ----------------------------
+
 class Square {
   static UNUSED_SQUARE = " ";
   static HUMAN_MARKER = "X";
@@ -24,8 +31,6 @@ class Square {
   getMarker() {
     return this.marker;
   }
-
-
 }
 
 // ----------------------------
@@ -35,6 +40,12 @@ class Board {
     for (let counter = 1; counter <= 9; ++counter) { // D.R.Y.
       this.squares[counter] = new Square();
     }
+  }
+
+  displayWithClear() {
+    console.clear();
+    console.log("");
+    this.display();
   }
 
   display() {
@@ -73,8 +84,6 @@ class Board {
 
     return marker.length;
   }
-
-
 }
 
 // ----------------------------
@@ -87,13 +96,13 @@ class Player {
     return this.marker;
   }
 }
-
+// ----------------------------
 class Human extends Player {
   constructor() {
     super(Square.HUMAN_MARKER);
   }
 }
-
+// ----------------------------
 class Computer extends Player {
   constructor() {
     super(Square.COMPUTER_MARKER);
@@ -122,24 +131,26 @@ class TTTGame {
   play() {
     this.displayWelcomeMessage();
 
+    this.board.display();
     while (true) {
-      this.board.display();
-
       this.humanMoves();
-
       if (this.gameOver()) break;
 
       this.computerMoves();
-
       if (this.gameOver()) break;
+
+      this.board.displayWithClear();
     }
 
+    this.board.displayWithClear();
     this.displayResult();
     this.displayGoodbyeMessage();
   }
 
   displayWelcomeMessage() {
+    console.clear();
     console.log("Welcome to Tic Tac Toe!");
+    console.log("");
   }
 
   displayGoodbyeMessage() {
@@ -168,7 +179,6 @@ class TTTGame {
     while (true) {
       let validChoice = this.board.unusedSquares();
       choice = readline.question(`Choose a square from (${validChoice.join(', ')}): `);
-      
       if (validChoice.includes(choice)) break;
 
       console.log("Sorry, invalid choice.");
@@ -199,5 +209,6 @@ class TTTGame {
   }
 }
 
+// ----------------------------
 let game = new TTTGame();
 game.play();
