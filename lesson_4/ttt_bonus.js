@@ -310,7 +310,12 @@ class TTTGame {
   }
 
   critialRowsCondition(player1, player2, singleRow) {
-    return this.board.countMarkerFor(player1, singleRow) === 2 && this.board.countMarkerFor(player2, singleRow) === 0;
+    let forBrevity = [
+      this.board.countMarkerFor(player1, singleRow) === 2,
+      this.board.countMarkerFor(player2, singleRow) === 0
+    ];
+
+    return forBrevity[0] && forBrevity[1];
   }
 
   whetherCritialSquare(player1, player2) {
