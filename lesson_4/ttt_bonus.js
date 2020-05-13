@@ -314,11 +314,11 @@ class TTTGame {
   }
 
   whetherCritialSquare(player1, player2) {
-    let critialRows = TTTGame.POSSIBLE_WINNING_ROWS.filter(row => {
+    let crucialRows = TTTGame.POSSIBLE_WINNING_ROWS.filter(row => {
       return this.critialRowsCondition(player1, player2, row);
     });
 
-    return critialRows.length;
+    return crucialRows.length;
   }
 
   atRiskSquares() {
@@ -330,12 +330,12 @@ class TTTGame {
   }
 
   findLastSquareToBeMarked(player1, player2) {
-    let critialRows = TTTGame.POSSIBLE_WINNING_ROWS.filter(row => {
+    let crucialRows = TTTGame.POSSIBLE_WINNING_ROWS.filter(row => {
       return this.critialRowsCondition(player1, player2, row);
     });
 
     let lastSquareToBeMarked;
-    critialRows.forEach(row => {
+    crucialRows.forEach(row => {
       let index = row.findIndex(key => this.board.isUnusedSquare(key));
       if (index !== -1) lastSquareToBeMarked = row[index];
     });
