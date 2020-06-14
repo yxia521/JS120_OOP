@@ -22,3 +22,37 @@ console.log(objectsEqual({a: 'foo', b: undefined}, {a: 'foo', c: 1}));  // false
 // One limitation of my solution: when the value is an object as well:
 console.log(objectsEqual({pet: {dog: 'menger'}}, {pet: {dog: 'menger'}})); // false
 // should return true
+
+// --- LS sol ---
+
+function objectsEqual(a, b) {
+  if (a === b) {
+    return true;
+  }
+  
+  return (keysMatch(a, b) && valuesMatch(a, b));
+}
+
+function keysMatch(a, b) {
+  let aKeys = Object.getOwnPropertyNames(a).sort();
+  let bKeys = Object.getOwnPropertyNames(b).sort(); 
+  
+  if (aKeys.length !== bKeys.length) {
+    return false;
+  }
+
+  return aKeys.every((key, index) => {
+    return key === bKeys[index];
+  });
+}
+
+function valuesMatch(a, b) {
+  let aKeys = Object.getOwnPropertyNames(a).sort();
+  let key;
+  
+  return aKeys.every(key => {
+    return a[key] === b[key];
+  });
+}
+
+
