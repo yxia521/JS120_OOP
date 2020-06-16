@@ -8,6 +8,8 @@
 // updateNote: Updates a note for a course. Updating a note replaces the existing note with the new note.
 // viewNotes: Logs the notes for all the courses. Courses without notes are not displayed.
 
+
+// --- my solution ---
 function createStudent(name, year) {
   return {
     name,
@@ -15,38 +17,45 @@ function createStudent(name, year) {
     courses: [],
 
     info() {
-      console.log(`${this.name} is a ${this.year} year student`);
+      console.log(`${this.name} is a ${year} year student`);
     },
 
-    addCourse(course) {
-      this.courses.push(course);
+    addCourse(courseObj) {
+      this.courses.push(courseObj);
     },
 
     listCourses() {
       console.log(this.courses);
     },
 
-    addNote(code, note) {   // add note to each course object in courses array
-      let course = this.courses.filter(course => code === course.code)[0];
-      if (!course.note) {
-        course.note = note;
-      } else {
-        course.note += `; ${note}`;
-      }
-      return course;
+    addNote(courseCode, note) {
+      this.courses.forEach(course => {
+        if (!course.note) {
+          if (course.code === courseCode) {
+            course.note = course.name + ': ' + note;
+          }
+        } else {
+          if (course.code === courseCode) {
+            course.note += '; ' + note;
+          }
+        }
+      });
     },
 
-    updateNote(code, note) {
-      let course = this.courses.filter(course => code === course.code)[0];
-      if (course) course.note = note;
+    updateNote(courseCode, newNote) {
+      this.courses.forEach(course => {
+        if (course.code === courseCode) {
+          course.note = course.name + ': ' + newNote;
+        }
+      });
     },
 
     viewNotes() {
       this.courses.forEach(course => {
-        if (course.note) console.log(`${course.name}: ${course.note}`)
+        if (course.note) console.log(course.note); // check only those who have note
       });
     },
-  }
+  };
 }
 
 let foo = createStudent('Foo', '1st');

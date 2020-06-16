@@ -56,11 +56,10 @@ function createStudent(name, year) {
 }
 
 let school = {
-  students: [], // [foo, bar, qux]
-
-  addStudent(name, year) {
-    let student = createStudent(name, year);
-    if (['1st', '2nd', '3rd', '4th', '5th'].includes(year)) {
+  students: [],
+  addStudent: function(name, year) {
+    if (['1st', '2nd', '3rd', '4th', '5th'].indexOf(year) >= 0) {
+      let student = createStudent(name, year);
       this.students.push(student);
       return student;
     } else {
@@ -68,65 +67,60 @@ let school = {
     }
   },
 
-  enrollStudent(student, course, code) {
-    student.addCourse({name: course, code: code});
+  enrollStudent: function(student, courseName, courseCode) {
+    student.addCourse({name: courseName, code: courseCode})
   },
 
-  addGrade(student, courseName, score = null) {
-    if (score) student.courses.forEach(course => {
-      if (courseName === course.name) course.grade = score;
-    });
+  addGrade: function(student, courseName, grade) {
+    let course = student.listCourses().filter(course => {
+      return course.name === courseName;
+    })[0];
+
+    if (course) {
+      course.grade = grade;
+    }
   },
 
-  getReportCard(student) {
-    student.courses.forEach(course => {
+  getReportCard: function(student) {
+    student.listCourses().forEach(course => {
       if (course.grade) {
-        console.log(`${course.name}: ${course.grade}`);
+        console.log(`${course.name} : ${String(course.grade)}`);
       } else {
-        console.log(`${course.name}: In progress`);
+        console.log(`${course.name} : In progress`);
       }
     });
   },
 
-  courseReport(courseName) {
-    const students = this.students.filter(student => {
-        const hasGradedCourse = student.courses.some(course => {
-          const hasCourse = course.name === courseName;
-          if (hasCourse) {
-            const isGraded = typeof course.grade === "number";
-            return isGraded;
-          }
-        });
-
-        return hasGradedCourse;
-      });
-      if (students.length === 0) {
-        console.log(undefined);
-        return undefined;
-      }
-
-      // find the average grade
-      const totalGrades = students.reduce((acc, cur) => {
-        const grade = cur.courses.find(course => course.name === courseName).grade;
-        return acc + grade;
-      }, 0);
-      const average = totalGrades / students.length;
-
-      // print header, student grades, separator, average
-      console.log(`=${courseName} Grades=`);
-      students.forEach(student => {
-        const grade = student.courses.find(course => course.name === courseName).grade;
-        console.log(`${student.name}: ${grade}`)
-      });
-      console.log(`---`);
-      console.log(`Course Average: ${average}`);
+  courseReport: function(courseName) {
+    function getCourse(student, courseName) {
+      return student.listCourses().filter(course => {
+        return course.name === courseName;
+      })[0];
     }
 
+    let courseStudents = this.students.map(student => {
+      let course = getCourse(student, courseName) || { grade: undefined };
+      return { name: student.name, grade: course.grade };
+    }).filter(student => student.grade);
+
+    if (courseStudents.length > 0) {
+      console.log(`= ${courseName} Grades=`);
+
+      let average = courseStudents.reduce((total, student) => {
+        console.log(`${student.name} : ${String(student.grade)}`);
+        return total + student.grade;
+      }, 0) / courseStudents.length;
+
+      console.log('---');
+      console.log(`Course Average: ${String(average)}`);
+    }
+  },
 };
 
 // both student bar, qux are created the same way as creating foo, code omitted for brevity
 // Examples of created student objects with grades; methods on the objects are not shown here
 // The following are only showing the properties that aren't methods for the three objects
+
 let bar = {
   name: 'bar',
   year: '1st',
