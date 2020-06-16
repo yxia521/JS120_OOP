@@ -7,21 +7,23 @@
 // Write a function objectsEqual that accepts two object arguments and 
 // returns true or false depending on whether the objects have the same key/value pairs.
 
-// check whether the keys are same and values are the same
-// shallow equality
 function objectsEqual(obj1, obj2) {
-  return Object.keys(obj1).every(k => k === Object.keys(obj2).shift()) && Object.values(obj1).every(v => v === Object.values(obj2).shift());
+  let k1 = Object.keys(obj1).sort();
+  let k2 = Object.keys(obj2).sort();
+  let keyMatch = k1.every((value, idx) => value === k2[idx]);
+
+  let v1 = Object.values(obj1).sort();
+  let v2 = Object.values(obj2).sort();
+  let valueMatch = v1.every((value, idx) => value === v2[idx]);
+
+  return  keyMatch && valueMatch;
 }
 
 console.log(objectsEqual({a: 'foo'}, {a: 'foo'}));                      // true
 console.log(objectsEqual({a: 'foo', b: 'bar'}, {a: 'foo'}));            // false
 console.log(objectsEqual({}, {}));                                      // true
 console.log(objectsEqual({a: 'foo', b: undefined}, {a: 'foo', c: 1}));  // false
-
-
-// One limitation of my solution: when the value is an object as well:
-console.log(objectsEqual({pet: {dog: 'menger'}}, {pet: {dog: 'menger'}})); // false
-// should return true
+console.log(objectsEqual({a: 'foo', c: 1}, {c: 1, a: 'foo'}));          // true
 
 // --- LS sol ---
 
@@ -55,4 +57,6 @@ function valuesMatch(a, b) {
   });
 }
 
-
+// One limitation of both solutions: when the value is an object
+console.log(objectsEqual({pet: {dog: 'menger'}}, {pet: {dog: 'menger'}})); // false
+// should return true
